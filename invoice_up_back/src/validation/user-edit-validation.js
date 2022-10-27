@@ -13,11 +13,10 @@ const ValidationUserEdit = (req, res, next) => {
     name: yup.string(),
     password: yup
       .string()
-      .required('A senha é necessária')
       .test(
         'is-password',
         'Informe uma senha com no mínimo de oito caracteres, pelo menos, uma letra maiúscula, uma letra minúscula, um número e um caractere especial',
-        (value) => isValidPassword(value),
+        (value) => !value || isValidPassword(value),
       ),
     email: yup.string().email(),
   });

@@ -70,6 +70,7 @@ export const createUser = async (req, res, next) => {
       password: passwordHashed,
       email: body.email,
       enabled: true,
+      rule: 'user',
     });
 
     await user.save();

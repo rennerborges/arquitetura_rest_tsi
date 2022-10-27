@@ -4,7 +4,14 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: './variables.env' });
 
-export function Auth() {
+const tablePermissions = {
+  a: 'admin',
+  u: 'user',
+};
+
+export function Auth(rules) {
+  const rulesSplits = rules.split();
+  const permissions = rulesSplits.map((rule) => tablePermissions[rule]);
   return (req, res, next) => {
     const { token } = req.headers;
 
@@ -22,6 +29,12 @@ export function Auth() {
         });
       }
 
+      if (!permissions.includes(decoded.rule)) {
+        return res.status(403).json({
+          auth: false,
+          message: 'Você não possui autorização para essa rota.',
+        });
+      }
       req.user = decoded;
 
       next();

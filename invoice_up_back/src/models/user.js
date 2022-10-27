@@ -6,6 +6,7 @@ const modelSchema = new mongoose.Schema({
   name: { type: String, required: [true, 'Name is required'] },
   password: String,
   email: { type: String, required: [true, 'E-mail is required'], unique: true },
+  rule: { type: String, enum: ['admin', 'user'], default: 'user' },
   enabled: Boolean,
 });
 
